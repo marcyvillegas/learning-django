@@ -2,20 +2,12 @@
 
 from django.http import HttpResponse
 from django.shortcuts import render
-
-data = {
-    "movies": [
-        {
-            "title": "Sample 1"
-        },
-        {
-            "title": "Sample 2"
-        },
-        {
-            "title": "Sample 3"
-        }
-    ]
-}
+from .models import Movie
 
 def movies(request):
-    return render(request, "movies/movies.html", data)
+    data = Movie.objects.all()
+    return render(request, "movies/movies.html", {'movies': data})
+
+def detail(request, id):
+    data = Movie.objects.get(pk=id)
+    return render(request, "movies/detail.html", {'movie': data})
